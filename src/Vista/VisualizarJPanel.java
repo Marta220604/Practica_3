@@ -2,6 +2,7 @@ package Vista;
 
 import Controlador.GestionClientes;
 import Modelo.Cliente;
+import java.awt.Color;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -48,6 +49,7 @@ public class VisualizarJPanel extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButtonCambiarColor = new javax.swing.JButton();
 
         jLabel1.setText("Número:");
 
@@ -57,6 +59,8 @@ public class VisualizarJPanel extends javax.swing.JPanel {
         TextFieldNumero.setText("jTextField1");
 
         jTextFieldNombre.setEditable(false);
+        jTextFieldNombre.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
+        jTextFieldNombre.setForeground(new java.awt.Color(255, 0, 0));
         jTextFieldNombre.setText("jTextField2");
 
         jButtonAnterior.setText("Anterior");
@@ -90,12 +94,15 @@ public class VisualizarJPanel extends javax.swing.JPanel {
         jButton3.setText("Borrar Cliente");
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
+        jButtonCambiarColor.setText("Cambiar color");
+        jButtonCambiarColor.addActionListener(this::jButtonCambiarColorActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -112,15 +119,20 @@ public class VisualizarJPanel extends javax.swing.JPanel {
                             .addComponent(jTextFieldPuntos)
                             .addComponent(jTextFieldFecha)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton3)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButtonAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtoSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jButton3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jButtonCambiarColor))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButtoSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +166,9 @@ public class VisualizarJPanel extends javax.swing.JPanel {
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButtonCambiarColor))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -192,6 +206,15 @@ public class VisualizarJPanel extends javax.swing.JPanel {
         refrescar();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButtonCambiarColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCambiarColorActionPerformed
+        // TODO add your handling code here:
+        if(jTextFieldNombre.getForeground() ==Color.RED){
+            jTextFieldNombre.setForeground(Color.BLUE);
+        }else jTextFieldNombre.setForeground(Color.RED);
+        
+        
+    }//GEN-LAST:event_jButtonCambiarColorActionPerformed
+
     //pinta el cliente actual de la lista (o vacia el panel si no hay clientes)
     public void refrescar() {
         if (gestion.esVacia()) {
@@ -203,7 +226,7 @@ public class VisualizarJPanel extends javax.swing.JPanel {
             setNavegacion(false, false, false, false, false);
         } else {
             mostrarCliente(gestion.obtenerCLienteActual());
-            setNavegacion(!gestion.esPrimero(), !gestion.esUltimo(), true, true, true);
+            setNavegacion(!gestion.esPrimero(), !gestion.esUltimo(), !gestion.esPrimero(), !gestion.esUltimo(), true);
         }
     }
     
@@ -216,7 +239,7 @@ public class VisualizarJPanel extends javax.swing.JPanel {
         jTextFieldFecha.setText(String.valueOf(c.getFechaNac()));
     }
     
-    //
+    //activa o desactiva cada boton 
     public void setNavegacion(boolean anterior, boolean siguiente, boolean primero, boolean ultimo, boolean borrar) {
 
         jButtonAnterior.setEnabled(anterior);
@@ -233,6 +256,7 @@ public class VisualizarJPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonAnterior;
+    private javax.swing.JButton jButtonCambiarColor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
